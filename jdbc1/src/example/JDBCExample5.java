@@ -44,12 +44,12 @@ public class JDBCExample5 {
 			// """ """ : 작성된 문자열 형태 그대로 저장
 			
 			String sql = String.format("""
-SELECT E.EMP_ID, E.EMP_NAME, D.DEPT_TITLE, J.JOB_NAME 
-FROM EMPLOYEE E
-JOIN JOB J ON (E.JOB_CODE = J.JOB_CODE) 
-JOIN DEPARTMENT D ON (E.DEPT_CODE = D.DEPT_ID)
-WHERE DEPT_TITLE = '%s'
-ORDER BY E.JOB_CODE ASC 	
+					SELECT E.EMP_ID, E.EMP_NAME, D.DEPT_TITLE, J.JOB_NAME 
+					FROM EMPLOYEE E
+					JOIN JOB J ON (E.JOB_CODE = J.JOB_CODE) 
+					JOIN DEPARTMENT D ON (E.DEPT_CODE = D.DEPT_ID)
+					WHERE DEPT_TITLE = '%s'
+					ORDER BY E.JOB_CODE ASC 	
 					""", input);
 			
 			stmt = conn.createStatement();
