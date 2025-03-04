@@ -39,7 +39,7 @@ public class JDBCExample2 {
 			// 커넥션 생성
 			Class.forName("oracle.jdbc.OracleDriver");
 			String url = "jdbc:oracle:thin:@112.221.156.34:12345:XE";
-			String userName = "KH00_TEACHER"; // 사용자 계정명
+			String userName = "KH22_JSW"; // 사용자 계정명
 			String password = "KH1234"; // 계정 비밀번호
 			conn = DriverManager.getConnection(url, userName, password);
 			

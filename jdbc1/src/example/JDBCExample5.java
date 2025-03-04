@@ -34,6 +34,7 @@ public class JDBCExample5 {
 					userName,
 					password
 					);
+
 			
 			// 범위 입력 받기
 			System.out.println("=== 부서명을 입력 받아 해당 부서 사원 조회 ===");
