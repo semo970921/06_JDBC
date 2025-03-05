@@ -4,6 +4,7 @@ import com.kh.mvc.model.dao.UserDAO;
 import com.kh.mvc.model.dto.UserDTO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * View에서 온 요청을 처리해주는 클래스입니다.
@@ -20,5 +21,26 @@ public class UserController {
 
     return userDAO.findAll();
   }
+
+  public int insertUser(String userId, String userPw, String userName) {
+    // requestParameter 매개변수
+    // userView에 있는 insertUser에 담은 주소값을 담는 변수
+
+    // DAO에 값을 덤김
+    // userDAO.insertUSer(userId, userPw, userName); => 근데 값을 한 군데에 담아서 보내고파
+    UserDTO user = new UserDTO();
+    user.setUserId(userId);
+    user.setUserPw(userPw);
+    user.setUserName(userName);
+
+    return userDAO.insertUser(user);
+
+
+  }
+
+
+
+
+
 
 }

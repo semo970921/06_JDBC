@@ -7,7 +7,7 @@ public class UserDTO { // ResultSet에서 한 행을 담는 것
 
   private String userId;
   private String userName;
-  private String password;
+  private String userPw;
   private Date enrollDate;
 
   public UserDTO() {
@@ -16,7 +16,7 @@ public class UserDTO { // ResultSet에서 한 행을 담는 것
 
   public UserDTO(Date enrollDate, String password, String userId, String userName, int userNo) {
     this.enrollDate = enrollDate;
-    this.password = password;
+    this.userPw = password;
     this.userId = userId;
     this.userName = userName;
     this.userNo = userNo;
@@ -30,12 +30,12 @@ public class UserDTO { // ResultSet에서 한 행을 담는 것
     this.enrollDate = enrollDate;
   }
 
-  public String getPassword() {
-    return password;
+  public String getUserPw() {
+    return userPw;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setUserPw(String userPw) {
+    this.userPw = userPw;
   }
 
   public String getUserId() {

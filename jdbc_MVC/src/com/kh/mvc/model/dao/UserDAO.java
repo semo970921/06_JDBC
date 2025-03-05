@@ -96,6 +96,8 @@ public class UserDAO {
     *
     * 1명의 회원의 정보는 1개의 UserDTO객체의 필드에 값을 담아야겠다.
     *
+    * 테이블의 한 행의 데이터를 담기위해 사용한다
+    *
     * 문제점 : userDTO가 몇개가 나올지 알 수 없음
     * (여러 개의 정보를 담는것은 배열, 리스트,맵,set)
     * 배열은 할당 해야하는데 몇칸인지 몰라
@@ -153,7 +155,7 @@ public class UserDAO {
         //2. 컬럼 수정시 순번 바뀜
 
         user.setUserId(rset.getString("USER_ID"));
-        user.setPassword(rset.getString("USER_PW"));
+        user.setUserPw(rset.getString("USER_PW"));
         user.setUserName(rset.getString("USER_NAME"));
         user.setEnrollDate(rset.getDate("ENROLL_DATE"));
         // user는 지역변수로 블록단위 생명주기
@@ -203,5 +205,63 @@ public class UserDAO {
     return list;
 
   }
+
+  /**
+   * @param user 사용자가 입력한 아이디/비밀번호/이름이 각각 필드에 대입되어있음
+   * @return 아직 뭐 돌려줄지 안정함
+   */
+  public int insertUser(UserDTO user){
+
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+
+    String sql = "INSERT "
+            + "INTO TB_USER "
+            +"VALUES "
+            +"("
+            +"SEQ_USER_NO.NEXTVAL"
+            +", ?, ?, ?"
+            +", sysdate"
+            +")";
+
+    int result = 0;
+
+    try{
+      conn = DriverManager.getConnection("jdbc:oracle:thin:@112.221.156.34:12345:XE",
+              "KH22_JSW", "KH1234");
+
+      pstmt = conn.prepareStatement(sql);
+
+      // 미완성 SQL -> 바인딩
+      pstmt.setString(1,user.getUserId()); // 컬럼의 위치랑 인덱스랑 맞춰야 함
+      pstmt.setString(2,user.getUserPw());
+      pstmt.setString(3,user.getUserName());
+
+      // SQL 실행
+      result = pstmt.executeUpdate();
+
+      return result;
+
+    }catch(SQLException e){
+      e.printStackTrace();
+    }finally{
+      try{
+        if(pstmt != null && !pstmt.isClosed()) pstmt.close(); // 숏서킷연산
+      }catch(SQLException e){
+        e.printStackTrace();
+      }
+
+      try{
+        if(conn != null)conn.close();
+      }catch(SQLException e){
+        e.printStackTrace();
+      }
+    }
+    return result;
+  }
+
+
+
+
 
 }
