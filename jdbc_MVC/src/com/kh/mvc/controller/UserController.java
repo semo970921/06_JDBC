@@ -33,9 +33,9 @@ public class UserController {
     user.setUserPw(userPw);
     user.setUserName(userName);
 
-    return userDAO.insertUser(user);
-
-
+    int result = userDAO.insertUser(user);
+    user = null; // GC가 해주겠지만 훌륭한 개발자라면...
+    return result;
   }
 
 

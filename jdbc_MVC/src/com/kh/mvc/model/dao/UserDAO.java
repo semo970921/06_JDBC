@@ -59,23 +59,11 @@ public class UserDAO {
   *             DML    > 처리된 행의 개수
   * */
 
-  // (java 공부)static 블록
-  // java 05. 클래스와 객체
+  private final String URL = "jdbc:oracle:thin:@112.221.156.34:12345:XE";
+  private final String USERNAME = "KH22_JSW";
+  private final String PASSWORD = "KH1234";
+
   static{
-    //Class.forName("oracle.jdbc.driver.OracleDriver");
-    // Unhandled exception: java. lang. ClassNotFoundException
-    // UerView에서 예외가 일어날 수 있었던건 왜 빨간줄 안가고 얘는 빨간줄가?
-    // forName 클래스에서  throws ClassNotFoundException 을 해서 => 근데 왜 이렇게??
-    // 입/출력은 외부에서 가져오고 하는데, 입출력 관련된거는 classNotFound 발생 가능성이 높기에
-    // 알아서 예외처리 하면 좋겠는데?
-    /*Class.forName(String className)은
-     런타임에 클래스의 이름을 문자열로 받아서
-     해당 클래스를 메모리에 로드하는 역할을 합니다.
-    그런데 만약 주어진 클래스가 클래스패스(Classpath)에 존재하지 않는다면,
-    이를 찾을 수 없으므로 ClassNotFoundException이 발생합니다.
-    이 메서드는 직접 예외를 처리하는 대신 **throws ClassNotFoundException**을 선언하여
-    호출하는 곳에서 예외를 처리하도록 강제합니다.
-    즉, 예외를 발생시킬 가능성이 있기 때문에, 반드시 예외 처리를 해야 하는 checked exception(검사 예외)입니다.*/
 
     try{
       Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -128,9 +116,8 @@ public class UserDAO {
     // 어디에 위치하면 좋을까?
     // 위에 static 블록!!
     try{
-      conn =
-              DriverManager.getConnection("jdbc:oracle:thin:@112.221.156.34:12345:XE",
-                      "KH22_JSW", "KH1234");
+      // 커넥션 객체를 여기다가 하고싶지 않어
+      conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
       pstmt = conn.prepareStatement(sql);
       // 5. 미완성 sql이 아니기에 바로 실행
