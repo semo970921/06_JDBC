@@ -2,6 +2,7 @@ package com.kh.mvc.controller;
 
 import com.kh.mvc.model.dao.UserDAO;
 import com.kh.mvc.model.dto.UserDTO;
+import com.kh.mvc.model.service.MemberService;
 
 import java.util.List;
 import java.util.Map;
@@ -14,12 +15,14 @@ import java.util.Map;
 public class UserController {
 
   private UserDAO userDAO = new UserDAO();
+  private MemberService userService = new MemberService();
 
   public List<UserDTO> findAll(){
-    List<UserDTO> list = userDAO.findAll();
+    //List<UserDTO> list = userDAO.findAll();
     // 들고온 이유? view에 보내주기 위함
 
-    return userDAO.findAll();
+    // 컨트롤럴와 DAO 사이에 중간다리를 만들어 주겠다
+    return userService.findAll();
   }
 
   public int insertUser(String userId, String userPw, String userName) {

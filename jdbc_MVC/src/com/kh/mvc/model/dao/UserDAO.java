@@ -73,7 +73,7 @@ public class UserDAO {
 
   }
 
-  public List<UserDTO> findAll(){
+  public List<UserDTO> findAll(Connection conn){
 
     // return 1,2 => 여러개 담지 않어
     // DAO : Data Transform Object
@@ -108,7 +108,7 @@ public class UserDAO {
     // 힙에 올라가있는 애들은 공간이 비어있으면 안됨
     // 스택에 올라가는 애들은 속이 텅텅 빔
     // 초기화 안하면 밑에 try~catch에서 close()하는데 값이 없는데 어떻게 close()??
-    Connection conn = null;
+   // Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rset = null;
 
@@ -117,7 +117,7 @@ public class UserDAO {
     // 위에 static 블록!!
     try{
       // 커넥션 객체를 여기다가 하고싶지 않어
-      conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+     // conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
       pstmt = conn.prepareStatement(sql);
       // 5. 미완성 sql이 아니기에 바로 실행
@@ -170,13 +170,13 @@ public class UserDAO {
       } catch(SQLException e){
         System.out.println("몰라 DB서버 이상해");
       }
-      try{
+/*      try{
         if(pstmt != null){
           pstmt.close();
         }
       } catch (SQLException e) {
         System.out.println("PreparedStment 이상해요~");
-      }
+      }*/
 
       try{
         if(conn != null){

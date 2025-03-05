@@ -3,6 +3,7 @@ package com.kh.mvc.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class JdbcUtil {
 
@@ -23,11 +24,21 @@ public class JdbcUtil {
     Connection conn = null;
 
     try{
-      conn = DriverManager.getConnection(null);
+      conn = DriverManager.getConnection(URL,USERNAME, PASSWORD);
     } catch(SQLException e){
       e.printStackTrace();
     }
-    return null;
+    return conn;
+  }
+
+  public static void close(Statement stmt){
+    try{
+      if(stmt != null){
+        stmt.close();
+      }
+    } catch (SQLException e) {
+      System.out.println("PreparedStment 이상해요~");
+    }
   }
 
 }
