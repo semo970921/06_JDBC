@@ -1,7 +1,10 @@
 package com.kh.mvc.view;
 
 import com.kh.mvc.controller.UserController;
+import com.kh.mvc.model.dto.UserDTO;
 
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -30,7 +33,15 @@ public class UserView {
       System.out.println("9. 프로그램 종료");
       System.out.print("이용할 메뉴 선택해주세요 > ");
 
-      int menuNo = sc.nextInt();
+      int menuNo = 0;
+      try{ // 예외처리
+        menuNo = sc.nextInt();
+      } catch(InputMismatchException e){
+        sc.nextLine();
+        continue;
+      }
+
+      // menuNo = sc.nextInt();
       sc.nextLine(); // 입력 버퍼에 남은거 제거?
 
       switch(menuNo){
@@ -56,10 +67,27 @@ public class UserView {
     // => 일단 위에 필드 선언
 
     // Controller야~ 쩌어기 DB가서 회원 전체 목록 좀 가져와줘
-    userController.findAll();
+    //userController.findAll();
+    List<UserDTO> list = userController.findAll();
+
+    System.out.println("\n조회된 총 회원의 수는 " + list.size() + " 명 입니다.");
+
+    /*조건식 사용법*/
+    if(!(list.isEmpty())){ // == list.size()
+
+      System.out.println("================================");
+      for(UserDTO user : list){
+        System.out.print(user.getUserName() + "님의 정보 !");
+        System.out.print("\n아이디 : " + user.getUserId());
+        System.out.print("\t가입일 : " + user.getEnrollDate());
+        System.out.println();
+      }
+      System.out.println("================================");
+
+    } else{
+      System.out.println("회원이 존재하지 않습니다.");
+    }
+
   }
-
-
-
 
 }
