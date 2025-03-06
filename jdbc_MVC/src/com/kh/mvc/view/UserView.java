@@ -30,6 +30,9 @@ public class UserView {
       System.out.println("---USER 테이블 관리 프로그램---");
       System.out.println("1. 회원 전체 조회");
       System.out.println("2. 회원 추가"); // 값이 5개 필요함 => 값 입력할 수 있도록 유도 필요
+      System.out.println("3. 비밀번호 수정하기");
+      System.out.println("4. 회원 삭제하기");
+      System.out.println("5. 회원 번호를 가지고 단일회원 조회");
       System.out.println("9. 프로그램 종료");
       System.out.print("이용할 메뉴 선택해주세요 > ");
 
@@ -50,6 +53,15 @@ public class UserView {
           break;
         case 2:
           insertUser();
+          break;
+        case 3 :
+          updatePw();
+          break;
+        case 4:
+          deleteUser();
+          break;
+        case 5:
+          //findUser(); // 회원 번호를 가지고 단일회원 조회
           break;
         case 9:
           System.out.println("프로그램 종료~👻");
@@ -130,9 +142,83 @@ public class UserView {
       System.out.println("회원 추가에 실패했습니다. 다시 시도해주세요~");
     }
 
+  }
 
+  /**
+   * case3 : 비밀번호 수정하기
+   *
+   * 지금 문제점 : 맞았는데도 일치하지 않아 떠 (해결완료)
+   */
+  private void updatePw(){
+    System.out.println("--- 비밀번호 수정하기 ---");
+    System.out.print("아이디를 입력하세용 > ");
+    String id = sc.nextLine();
+
+    System.out.print("현재 비밀번호를 입력하세용 > ");
+    String currentPw = sc.nextLine();
+
+    System.out.print("수정할 비밀번호 입력해라 > ");
+    String newPw = sc.nextLine();
+
+    int result = userController.updatePw(id, currentPw, newPw);
+
+    if(result > 0) {
+      System.out.println("수정 성공!!");
+    } else {
+      System.out.println("아이디 또는 비밀번호가 일치하지 않습니다");
+    }
 
   }
+
+  /**
+   * case4 : 회원 삭제
+   */
+  private void deleteUser(){
+    System.out.println("--- 회원 삭제 ---");
+    System.out.print("아이디를 입력하세유 > ");
+    String userId = sc.nextLine();
+
+    System.out.print("비밀번호를 입력하세유 > ");
+    String userPw = sc.nextLine();
+
+    int result = userController.deleteUser(userId, userPw);
+
+    if(result > 0){
+      System.out.println("아쉽지만😭😭회원 탈되가 완료되었습니다~");
+    } else{
+      System.out.println("아이디 또는 비밀번호가 일치하지 않습니다.");
+    }
+
+  }
+
+
+  /**
+   * case5 : 회원 번호를 가지고 단일회원 조회
+   */
+/*  public void findUser(){
+    System.out.println("--- 회원 조회---");
+    System.out.print("검색할 아이디 입력하슈 > ");
+    String id = sc.nextLine();
+
+
+    if(userController.findUser(id) != null){
+      System.out.println("===========================");
+      UserDTO user = new UserDTO();
+      System.out.println(user.getUserName() + "님의 정보~");
+      System.out.println("아이디 : " + user.getUserId());
+      System.out.println("비밀번호 : " + user.getEnrollDate());
+      System.out.println("회원가입일 : " + user.getEnrollDate());
+      System.out.println("===========================");
+    } else{
+      System.out.println("아이디가 잘못 되었습니다.");
+    }
+
+  }*/
+
+
+
+
+
 
 
 

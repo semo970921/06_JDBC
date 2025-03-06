@@ -10,6 +10,8 @@ public class UserDTO { // ResultSet에서 한 행을 담는 것
   private String userPw;
   private Date enrollDate;
 
+  private String newPw; // case3 비밀번호 수정
+
   public UserDTO() {
     super();
   }
@@ -60,5 +62,13 @@ public class UserDTO { // ResultSet에서 한 행을 담는 것
 
   public void setUserNo(int userNo) {
     this.userNo = userNo;
+  }
+
+  public String getNewPw() {
+    return newPw;
+  }
+
+  public void setNewPw(String newPw) {
+    this.newPw = newPw;
   }
 }

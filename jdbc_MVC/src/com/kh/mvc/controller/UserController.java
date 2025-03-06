@@ -15,6 +15,8 @@ import java.util.Map;
 public class UserController {
 
   private UserDAO userDAO = new UserDAO();
+
+  // 나중에 service하면서 적은거
   private MemberService userService = new MemberService();
 
   public List<UserDTO> findAll(){
@@ -41,7 +43,32 @@ public class UserController {
     return result;
   }
 
+  public int updatePw(String id, String currentPw, String newPw){
+    UserDTO user = new UserDTO();
+    user.setUserId(id);
+    user.setUserPw(currentPw);
+    user.setNewPw(newPw);
 
+    int result = userDAO.updateUser(user);
+    return result;
+
+  }
+
+  public int deleteUser(String userId, String userPw){
+    UserDTO user = new UserDTO();
+    user.setUserId(userId);
+    user.setUserPw(userPw);
+
+    int result = userDAO.deleteUser(user);
+
+    return result;
+  }
+
+/*  public UserDTO findUser(String id){
+    UserDTO user = new UserDTO();
+    user.setUserId(id);
+    return user;
+  }*/
 
 
 
