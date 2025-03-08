@@ -20,10 +20,20 @@ public class MemberService {
 
   public List<UserDTO> findAll(){
     Connection conn = JdbcUtil.getConnection();
-
     List<UserDTO> list = userDAO.findAll(conn);
-
     return list;
+  }
+
+  public int insertUser(UserDTO user) {
+    Connection conn = JdbcUtil.getConnection();
+    int result = userDAO.insertUser(conn, user);
+    return result;
+  }
+
+  public int updatePw(UserDTO user) {
+    Connection conn = JdbcUtil.getConnection();
+    int result = userDAO.updatePw(conn,user);
+    return result;
   }
 
 }

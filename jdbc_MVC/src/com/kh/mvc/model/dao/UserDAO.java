@@ -1,6 +1,7 @@
 package com.kh.mvc.model.dao;
 
 import com.kh.mvc.model.dto.UserDTO;
+import com.kh.mvc.util.JdbcUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -63,6 +64,9 @@ public class UserDAO {
   private final String USERNAME = "KH22_JSW";
   private final String PASSWORD = "KH1234";
 
+  // 공통으로 사용하기에 프로그램 실행 시
+  // 딱 한번만 메모리에 할당되어
+  // 모든 객체가 공유하기 위함
   static {
 
     try {
@@ -73,9 +77,9 @@ public class UserDAO {
 
   }
 
-  public List<UserDTO> findAll(Connection conn) {
+  public List<UserDTO> findAll(Connection conn) { // Connection 인터페이스
 
-    // return 1,2 => 여러개 담지 않어
+    // return 1,2 => return 값은 여러 개 담지 않어
     // DAO : Data Transform Object
 
     // DB가야지~~
@@ -94,7 +98,7 @@ public class UserDAO {
      *
      * */
 
-    List<UserDTO> list = new ArrayList<UserDTO>();
+    List<UserDTO> list = new ArrayList();
     String sql = "SELECT"
             + " USER_NO"
             + ", USER_ID"
@@ -105,16 +109,22 @@ public class UserDAO {
             + "ORDER BY "
             + "ENROLL_DATE DESC";
 
-    // 힙에 올라가있는 애들은 공간이 비어있으면 안됨
-    // 스택에 올라가는 애들은 속이 텅텅 빔
-    // 초기화 안하면 밑에 try~catch에서 close()하는데 값이 없는데 어떻게 close()??
+    // 흐~~~~~ 이제야 이해가 가넹~~~~~~~~~~~~~~~
+    // 헤헤헤헿 신난댜
+    // 나는야 말하는 감쟈감쟈 감자감쟈감자
+    // 흐흫어ㅓ엏
+
+
     // Connection conn = null;
+    // 주석처리한 이유 => Study에서 설명
+
     PreparedStatement pstmt = null;
     ResultSet rset = null;
 
     // Class.forName("oracle.jdbc.driver.OracleDriver");
     // 어디에 위치하면 좋을까?
     // 위에 static 블록!!
+
     try {
       // 커넥션 객체를 여기다가 하고싶지 않어
       // conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -130,14 +140,14 @@ public class UserDAO {
 /*      if(rset.next()){}
       if(rset.next()){}
       if(rset.next()){}
-      => 중복 코드 => 먗번 돌지 몰라
+      => 중복 코드 => 몇번 돌지 몰라
       */
       while (rset.next()) {
         UserDTO user = new UserDTO();
 
         //user.setUserNo(rset.getInt(0)); // 컬럼 순번
         user.setUserNo(rset.getInt("USER_NO"));
-        // 컬럼명으로 받는거
+        // 컬럼명으로 받는걸로 해야함
         //1. 다른 사람이 컬럼 순번을 보면 뭔지 모름
         //2. 컬럼 수정시 순번 바뀜
 
@@ -145,13 +155,14 @@ public class UserDAO {
         user.setUserPw(rset.getString("USER_PW"));
         user.setUserName(rset.getString("USER_NAME"));
         user.setEnrollDate(rset.getDate("ENROLL_DATE"));
-        // user는 지역변수로 블록단위 생명주기
+        // user는 지역변수로 블록단위 생명주기인데
+        // 그러면!!! 블럭이 끝나면 사라지는거 아니냐?
 
         list.add(user);
         // 이렇게하면 안날아감
         // 왜? 힙에있는 객체가 계속 살아남으려면 누군가가 얘를 참조하고 있어야 함
-        // ArrayList는 10칸 짜리 배열인데 블록이 끝나기전에 누군가가 가리킴
-        // gpt
+        // ArrayList는 10칸 짜리 배열인데 블록이 끝나기전에 누군가가 가리키고있기에
+        // 객체가 생성되어 있기에 안날라간당
 
 
       }
@@ -160,23 +171,27 @@ public class UserDAO {
       e.printStackTrace();
       System.out.println("오타가 나지 않았나요?? 확인 하셨나요?? 두 번 봤나요??");
     } /*finally {*/
-    // finally가 의미 있으려면 return구문.. 따라서 꼭 필요하지 않어
-    // 기계식 개발자가 되지 말 것
+    // 사실...finally가 의미 있으려면 return구문..
+    // 따라서 꼭 필요하지 않어
+    // 기계식 개발자가 되지 말 것!!!!!!!!!!!!!🔥🔥🔥🔥🔥
 
-    try {
-      if (rset != null) { // null일때 수행하면 nullpointerException이 일어남
+
+    // 생성한것 역순으로 만들어유~
+/*    try {
+      if (rset != null) {
+        // null일때 수행하면 nullpointerException이 일어남
         rset.close();
       }
     } catch (SQLException e) {
       System.out.println("몰라 DB서버 이상해");
     }
-/*      try{
-        if(pstmt != null){
-          pstmt.close();
-        }
-      } catch (SQLException e) {
-        System.out.println("PreparedStment 이상해요~");
-      }*/
+//     try{
+//        if(pstmt != null){
+//          pstmt.close();
+//        }
+//      } catch (SQLException e) {
+//        System.out.println("PreparedStment 이상해요~");
+//      }
 
     try {
       if (conn != null) {
@@ -184,9 +199,13 @@ public class UserDAO {
       }
     } catch (SQLException e) {
       e.printStackTrace();
-    }
+    }*/
 
-    /*}*/
+    /*}*/finally{
+      JdbcUtil.close(rset);
+      JdbcUtil.close(pstmt);
+      JdbcUtil.close(conn);
+    }
 
 
     return list;
@@ -197,9 +216,8 @@ public class UserDAO {
    * @param user 사용자가 입력한 아이디/비밀번호/이름이 각각 필드에 대입되어있음
    * @return 아직 뭐 돌려줄지 안정함
    */
-  public int insertUser(UserDTO user) {
+  public int insertUser(Connection conn, UserDTO user) {
 
-    Connection conn = null;
     PreparedStatement pstmt = null;
 
     String sql = "INSERT "
@@ -214,8 +232,6 @@ public class UserDAO {
     int result = 0;
 
     try {
-      conn = DriverManager.getConnection("jdbc:oracle:thin:@112.221.156.34:12345:XE",
-              "KH22_JSW", "KH1234");
 
       pstmt = conn.prepareStatement(sql);
 
@@ -227,22 +243,12 @@ public class UserDAO {
       // SQL 실행
       result = pstmt.executeUpdate();
 
-      return result;
 
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
-      try {
-        if (pstmt != null && !pstmt.isClosed()) pstmt.close(); // 숏서킷연산
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-
-      try {
-        if (conn != null) conn.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+      JdbcUtil.close(pstmt);
+      JdbcUtil.close(conn);
     }
     return result;
   }
@@ -253,9 +259,9 @@ public class UserDAO {
    * @param user
    * @return result : 정수로 반환
    */
-  public int updateUser(UserDTO user) {
+  public int updatePw(Connection conn, UserDTO user) {
 
-    Connection conn = null;
+    // Connection conn = null;
     PreparedStatement pstmt = null;
 
 
@@ -272,8 +278,6 @@ public class UserDAO {
     int result = 0;
 
     try{
-      conn = DriverManager.getConnection("jdbc:oracle:thin:@112.221.156.34:12345:XE",
-              "KH22_JSW", "KH1234");
 
       pstmt = conn.prepareStatement(sql);
 
@@ -296,17 +300,8 @@ public class UserDAO {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     } finally {
-      try {
-        if (pstmt != null && !pstmt.isClosed()) pstmt.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-
-      try {
-        if (conn != null) conn.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+      JdbcUtil.close(pstmt);
+      JdbcUtil.close(conn);
     }
 
   }

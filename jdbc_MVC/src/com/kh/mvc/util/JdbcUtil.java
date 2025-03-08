@@ -1,15 +1,8 @@
 package com.kh.mvc.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class JdbcUtil {
-
-/*  {
-    // 값처리 원칙
-  }*/
 
   /*
   * JDBC API 사용 중 중복 코드가 너무 많음!!
@@ -31,6 +24,16 @@ public class JdbcUtil {
     return conn;
   }
 
+  public static void close(Connection conn) {
+    try {
+      if(conn != null) {
+        conn.close();
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
   public static void close(Statement stmt){
     try{
       if(stmt != null){
@@ -38,6 +41,16 @@ public class JdbcUtil {
       }
     } catch (SQLException e) {
       System.out.println("PreparedStment 이상해요~");
+    }
+  }
+
+  public static void close(ResultSet rset) {
+    try {
+      if(rset != null) {
+        rset.close();
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
     }
   }
 
