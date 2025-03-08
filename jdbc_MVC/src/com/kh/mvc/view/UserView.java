@@ -61,7 +61,7 @@ public class UserView {
           deleteUser();
           break;
         case 5:
-          //findUser(); // 회원 번호를 가지고 단일회원 조회
+          findUser(); // 회원 번호를 가지고 단일회원 조회
           break;
         case 9:
           System.out.println("프로그램 종료~👻");
@@ -195,30 +195,34 @@ public class UserView {
   /**
    * case5 : 회원 번호를 가지고 단일회원 조회
    */
-/*  public void findUser(){
-    System.out.println("--- 회원 조회---");
-    System.out.print("검색할 아이디 입력하슈 > ");
-    String id = sc.nextLine();
+  public void findUser(){
+    System.out.println("--- 회원 번호로 조회---");
+    System.out.print("검색할 회원 번호 입력하슈 > ");
+    int num = sc.nextInt();
 
+    UserController userController = new UserController();
 
-    if(userController.findUser(id) != null){
-      System.out.println("===========================");
-      UserDTO user = new UserDTO();
-      System.out.println(user.getUserName() + "님의 정보~");
-      System.out.println("아이디 : " + user.getUserId());
-      System.out.println("비밀번호 : " + user.getEnrollDate());
-      System.out.println("회원가입일 : " + user.getEnrollDate());
-      System.out.println("===========================");
+    UserDTO user = new UserDTO();
+
+    if(userController.findUser(num) != null){
+
+        System.out.println("===========================");
+        System.out.println(user.getUserName() + "님의 정보~");
+        System.out.println("아이디 : " + user.getUserId());
+        System.out.println("비밀번호 : " + user.getEnrollDate());
+        System.out.println("회원가입일 : " + user.getEnrollDate());
+        System.out.println("===========================");
+
     } else{
       System.out.println("아이디가 잘못 되었습니다.");
     }
 
-  }*/
+  }
 
 
 
 
-
+/**/
 
 
 

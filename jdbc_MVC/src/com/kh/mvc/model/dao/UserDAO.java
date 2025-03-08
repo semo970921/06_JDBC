@@ -341,51 +341,47 @@ public class UserDAO {
     return result;
   }
 
+  public UserDTO findUser(Connection conn, UserDTO user) {
+    List<UserDTO> list = new ArrayList();
 
-/*  public UserDTO findUser(String id) {
-    Connection conn = null;
     PreparedStatement pstmt = null;
-    ResultSet rs = null;
+    ResultSet rset = null;
 
-    UserDTO user = new UserDTO();
+    String sql
+            =
+            """
+            SELECT
+              ?, ?, ?, ?, ?
+            FROM TB_USER
+            WHERE USER_ID = ?
+            """;
 
-    String sql =
-               """
-                SELECT USER_ID, USER_PW, USER_NAME, ENROLL_DATE
-                FROM TB_USER
-                WHERE USER_ID = ?
-               """;
-
-
-    try {
-      conn = DriverManager.getConnection("jdbc:oracle:thin:@112.221.156.34:12345:XE",
-              "KH22_JSW", "KH1234");
-
+    try{
       pstmt = conn.prepareStatement(sql);
-      pstmt.setString(1,id);
 
-      rs = pstmt.executeQuery();
+      while(rset.next()) {
+        pstmt.setInt(1, user.getUserNo());
+        pstmt.setString(2, user.getUserId());
+        pstmt.setString(3, user.getUserPw());
+        pstmt.setString(4, user.getUserName());
+        pstmt.setDate(5, new java.sql.Date(user.getEnrollDate().getTime()));
+        pstmt.setInt(6, user.getUserNo());
 
-      while(rs.next()){
-
-        String userId = rs.getString("USER_ID");
-        String userPw = rs.getString("USER_PW");
-        String userName = rs.getString("USER_NAME");
-        Date userEnrollDate = rs.getDate("ENROLL_DATE");
-
+        list.add(user);
 
       }
 
-      re
-
-
+      rset = pstmt.executeQuery();
 
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
+    }finally{
+      JdbcUtil.close(rset);
+      JdbcUtil.close(pstmt);
     }
+    return list.get(0);
+  }
 
-    return user;
-  }*/
 
 
 

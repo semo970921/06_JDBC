@@ -42,4 +42,10 @@ public class MemberService {
     return result;
   }
 
+  public List<UserDTO> findUser(){
+    Connection conn = JdbcUtil.getConnection();
+    List<UserDTO> list = userDAO.findAll(conn);
+    return list;
+  }
+
 }

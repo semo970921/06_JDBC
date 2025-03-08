@@ -64,11 +64,12 @@ public class UserController {
     return result;
   }
 
-/*  public UserDTO findUser(String id){
-    UserDTO user = new UserDTO();
-    user.setUserId(id);
-    return user;
-  }*/
+  public List<UserDTO> findUser(int num){
+
+
+
+    return userService.findUser();
+  }
 
 
 
