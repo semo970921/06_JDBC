@@ -36,4 +36,10 @@ public class MemberService {
     return result;
   }
 
+  public int deleteUser(UserDTO user) {
+    Connection conn = JdbcUtil.getConnection();
+    int result = userDAO.deleteUser(conn,user);
+    return result;
+  }
+
 }

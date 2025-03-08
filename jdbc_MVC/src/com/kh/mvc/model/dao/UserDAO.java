@@ -306,9 +306,8 @@ public class UserDAO {
 
   }
 
-  public int deleteUser(UserDTO user) {
+  public int deleteUser(Connection conn, UserDTO user) {
 
-    Connection conn = null;
     PreparedStatement pstmt = null;
 
     String sql
@@ -324,9 +323,6 @@ public class UserDAO {
 
     try {
 
-      conn = DriverManager.getConnection("jdbc:oracle:thin:@112.221.156.34:12345:XE",
-              "KH22_JSW", "KH1234");
-
       pstmt = conn.prepareStatement(sql);
 
       System.out.println(user.getUserId());
@@ -339,17 +335,8 @@ public class UserDAO {
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
-      try {
-        if (pstmt != null && !pstmt.isClosed()) pstmt.close(); // 숏서킷연산
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-
-      try {
-        if (conn != null) conn.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+      JdbcUtil.close(pstmt);
+      JdbcUtil.close(conn);
     }
     return result;
   }

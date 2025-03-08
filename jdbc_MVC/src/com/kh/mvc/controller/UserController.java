@@ -59,7 +59,7 @@ public class UserController {
     user.setUserId(userId);
     user.setUserPw(userPw);
 
-    int result = userDAO.deleteUser(user);
+    int result = userService.deleteUser(user);
 
     return result;
   }
